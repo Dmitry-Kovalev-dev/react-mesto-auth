@@ -15,6 +15,7 @@ import Login from './Login';
 import Register from './Register';
 import { authorization, register, getContent } from '../utils/mestoAuth';
 import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
 
 const App = () => {
 
@@ -126,13 +127,16 @@ const App = () => {
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setDeleteCardPopupOpen(false);
+    setInfoTooltipPopupOpen(false)
     setSelectedCard({});
   }
 
   /** ------12th SPRINT------ */
 
   const [loggedIn, setLoggedIn] = useState(false);
-  const [activeUser, setActiveUser] = useState('')
+  const [activeUser, setActiveUser] = useState('');
+  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false)
+  const [isRegister, setIsRegister] = useState(true)
   const history = useHistory();
 
 
@@ -144,6 +148,7 @@ const App = () => {
         }
         setLoggedIn(true);
         localStorage.setItem('token', res.token);
+        history.push('/');
       })
       .catch(err => {
         console.log(err);
@@ -152,12 +157,18 @@ const App = () => {
 
   const handleRegister = (password, email) => {
     register(password, email)
-      .then((res) => {
-        history.push('/sign-in');
+      .then(() => {
+        setTimeout(() => { //костыль: установил таймаут, потому что при втором запросе сервер выдает ошибку 429
+          handleLogin(password, email);
+          setInfoTooltipPopupOpen(true);
+          setIsRegister(true);
+        }, 500);
       })
       .catch(err => {
         console.log(err);
-      })
+        setInfoTooltipPopupOpen(true); 
+        setIsRegister(false)
+      });
   };
 
   const token = localStorage.getItem('token');
@@ -251,6 +262,12 @@ const App = () => {
         <ImagePopup
           card={selectedCard}
           onClose={handleClickClosePopup}
+        />
+
+        <InfoTooltip
+        isRegister={isRegister}
+        onClose={handleClickClosePopup}
+        isOpen={isInfoTooltipPopupOpen}
         />
       </CurrentUserContext.Provider>
     </div>

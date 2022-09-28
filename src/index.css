@@ -48,6 +48,8 @@
 @import url(./blocks/popup/__container/_type/popup__container_type_edit-avatar.css);
 
 .popup__container_type_auth {
+  display: flex;
+  flex-direction: column;
   background-color: #000;
   box-shadow: none;
   position: relative;
@@ -95,6 +97,14 @@
   text-align: center;
   margin: 0;
   padding: 0;
+  text-decoration: none;
+  color: #FFF;
+  opacity: 1;
+  transition: opacity 0.1s linear;
+}
+
+.popup__button-caption:hover {
+  opacity: 0.6;
 }
 
 .header__navigation {
@@ -138,4 +148,22 @@
 
 .header__action-btn_active {
   display: none;
+}
+
+.popup__icon-info {
+  width: 120px;
+  margin: 60px auto 0;
+  padding: 0;
+}
+
+.popup__container_type_info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup__title_type_info {
+  text-align: center;
+  margin: 32px auto 0;
+  max-width: 358px;
 }

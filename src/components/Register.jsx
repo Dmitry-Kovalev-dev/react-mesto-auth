@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Register = (props) => {
 
@@ -61,7 +62,7 @@ const Register = (props) => {
           </fieldset>
           <button type="submit" className="popup__save-input-btn popup__save-input-btn_type_auth">Зарегистрироваться</button>
         </form>
-        <p className="popup__button-caption">Уже зарегистрированы? Войти</p>
+        <Link to='./sign-in' className="popup__button-caption">Уже зарегистрированы? Войти</Link>
       </div>
     </div>
   );
