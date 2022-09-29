@@ -46,124 +46,17 @@
 @import url(./blocks/popup/_type/popup_type_del.css);
 @import url(./blocks/popup/__container/_type/popup__container_type_del.css);
 @import url(./blocks/popup/__container/_type/popup__container_type_edit-avatar.css);
-
-.popup__container_type_auth {
-  display: flex;
-  flex-direction: column;
-  background-color: #000;
-  box-shadow: none;
-  position: relative;
-  margin: 0 auto;
-}
-
-.popup__title_type_auth {
-  color: white;
-  text-align: center;
-  margin: 20px auto 50px;
-}
-
-.popup_type_auth {
-  position: relative;
-  margin: 0 auto;
-  display: flex;
-  width: 880px;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  transform: none;
-  opacity: 1;
-  transition: none;
-  cursor: default;
-}
-
-.popup__input_type_auth {
-  border-bottom: 2px solid #CCC;
-  background-color: #000;
-  color: #CCC;
-}
-
-.popup__save-input-btn_type_auth {
-  margin: 216px auto 15px;
-  background-color: #FFF;
-  color: #000;
-}
-
-.popup__button-caption {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.21;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  color: #FFF;
-  opacity: 1;
-  transition: opacity 0.1s linear;
-}
-
-.popup__button-caption:hover {
-  opacity: 0.6;
-}
-
-.header__navigation {
-   display: flex;
-   margin: 6px 0 0;
-}
-
-.header__email {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.22;
-  text-align: right;
-  margin: 0;
-  padding: 0;
-  height: 22px;
-  max-width: 200px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.header__action-btn {
-  display: inline;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.22;
-  text-align: right;
-  color: #fff;
-  background: transparent;
-  border: none;
-  margin: 0 0 0 24px;
-  padding: 0;
-  height: 22px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.header__action-btn_active {
-  display: none;
-}
-
-.popup__icon-info {
-  width: 120px;
-  margin: 60px auto 0;
-  padding: 0;
-}
-
-.popup__container_type_info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.popup__title_type_info {
-  text-align: center;
-  margin: 32px auto 0;
-  max-width: 358px;
-}
+@import url(./blocks/popup/_type/popup_type_auth.css);
+@import url(./blocks/popup/__container/_type/popup__container_type_auth.css);
+@import url(./blocks/popup/__title/_type/popup__title_type_auth.css);
+@import url(./blocks/popup/__input/_type/popup__input_type_auth.css);
+@import url(./blocks/popup/__save-input-btn/_type/popup__save-input-btn_type_auth.css);
+@import url(./blocks/popup/__button-caption/popup__button-caption.css);
+@import url(./blocks/popup/__icon-info/popup__icon-info.css);
+@import url(./blocks/popup/__container/_type/popup__container_type_info.css);
+@import url(./blocks/popup/__title/_type/popup__title_type_info.css);
+@import url(./blocks/popup/__form/_type/popup__form_type_auth.css);
+@import url(./blocks/header/__navigation/header__navigation.css);
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__action-btn/header__action-btn.css);
+@import url(./blocks/header/__action-btn/_active/header__action-btn_active.css);

@@ -12,6 +12,6 @@
 
   .footer__text {
     font-size: 14px;
-    line-height: 1.21px;
+    line-height: 1.21;
   }
 }

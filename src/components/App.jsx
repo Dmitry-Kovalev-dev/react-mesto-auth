@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { authorization, register, getContent } from '../utils/mestoAuth';
 import api from './../utils/Api';
 import Footer from './Footer';
 import Header from './Header';
@@ -10,10 +12,8 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
-import { Route, Switch, useHistory } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
-import { authorization, register, getContent } from '../utils/mestoAuth';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 
@@ -31,15 +31,18 @@ const App = () => {
   const [editProfileBtnValue, setEditProfileBtnValue] = useState('Сохранить');
   const [editAvatarBtnValue, setEditAvatarBtnValue] = useState('Сохранить');
   const [deleteCardBtnValue, setDeleteCardBtnValue] = useState('Да');
+  const [loggedIn, setLoggedIn] = useState(false); //стейт входа в аккаунт
 
   useEffect(() => {
+    if (loggedIn) {
     Promise.all([api.getInitialCard(), api.getProfileInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser(userData);
       })
       .catch(err => { console.log(err) })
-  }, [])
+    }
+  }, [loggedIn]);
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -106,21 +109,20 @@ const App = () => {
     setEditAvatarPopupOpen(true);
   };
 
-
   const handleCardClick = (card) => {
     setSelectedCard(card);
-  }
+  };
 
   const handleCardTrashClick = (card) => {
     setDeleteCardPopupOpen(true);
     setSelectedDeleteCard(card);
-  }
+  };
 
   const handleClickClosePopup = (evt) => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-btn')) {
       closeAllPopups();
     }
-  }
+  };
 
   const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
@@ -129,29 +131,32 @@ const App = () => {
     setDeleteCardPopupOpen(false);
     setInfoTooltipPopupOpen(false)
     setSelectedCard({});
-  }
+  };
 
-  /** ------12th SPRINT------ */
-
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [activeUser, setActiveUser] = useState('');
-  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false)
-  const [isRegister, setIsRegister] = useState(true)
+  /**         12th SPRINT             */
+  const [activeUser, setActiveUser] = useState(''); //стейт email-а вошедшего пользователя
+  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false); // стейт открыти информационного попапа
+  const [isRegister, setIsRegister] = useState(true); //стейт успешной регистрации
+  const [message, setMessage] = useState(''); //стейт сообщения информационного попапа
   const history = useHistory();
 
+  const token = localStorage.getItem('token');
+  const errorMessages = {
+    '400': 'Поля должны быть заполнены',
+    '401': 'Логин или пароль введены неверно',
+  };
 
   const handleLogin = (password, email) => {
     authorization(password, email)
       .then((res) => {
-        if (!res?.token) {
-          Promise.reject('Что-то пошло не так')
-        }
-        setLoggedIn(true);
         localStorage.setItem('token', res.token);
+        setLoggedIn(true);
         history.push('/');
       })
       .catch(err => {
-        console.log(err);
+        setInfoTooltipPopupOpen(true);
+        setIsRegister(false);
+        setMessage(errorMessages[err]);
       });
   };
 
@@ -162,16 +167,15 @@ const App = () => {
           handleLogin(password, email);
           setInfoTooltipPopupOpen(true);
           setIsRegister(true);
+          setMessage('Вы успешно зарегистрировались!');
         }, 500);
       })
       .catch(err => {
-        console.log(err);
-        setInfoTooltipPopupOpen(true); 
-        setIsRegister(false)
+        setInfoTooltipPopupOpen(true);
+        setIsRegister(false);
+        setMessage(errorMessages[err]);
       });
   };
-
-  const token = localStorage.getItem('token');
 
   const tokenCheck = () => {
     if (token) {
@@ -182,12 +186,16 @@ const App = () => {
             setActiveUser(res.data.email)
           }
         })
+        .catch(err => {
+          console.log(err);
+        })
     }
   };
 
   useEffect(() => {
     history.push('/');
     tokenCheck();
+    // eslint-disable-next-line
   }, [loggedIn]);
 
   const handleLogout = () => {
@@ -197,7 +205,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header
           loggedIn={loggedIn}
@@ -265,12 +273,13 @@ const App = () => {
         />
 
         <InfoTooltip
-        isRegister={isRegister}
-        onClose={handleClickClosePopup}
-        isOpen={isInfoTooltipPopupOpen}
+          isRegister={isRegister}
+          onClose={handleClickClosePopup}
+          isOpen={isInfoTooltipPopupOpen}
+          message={message}
         />
       </CurrentUserContext.Provider>
-    </div>
+    </>
   );
 }
 

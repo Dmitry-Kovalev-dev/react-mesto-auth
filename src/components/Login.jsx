@@ -11,15 +11,14 @@ const Login = (props) => {
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
-    setInput(old => ({...old, [name]:value}))
+    setInput(old => ({ ...old, [name]: value }))
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const {password, email} = input;
+    const { password, email } = input;
     onLogin(password, email);
-      
-  }
+  };
 
   return (
     <div className="popup popup_type_auth">

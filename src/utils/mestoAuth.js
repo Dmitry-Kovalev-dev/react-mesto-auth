@@ -1,56 +1,48 @@
 
 const baseUrl = 'https://auth.nomoreparties.co';
 
-export const register = (password, email) => {
-  return fetch(`${baseUrl}/signup`, {
-    method: 'POST',
+const request = ({url, method = 'POST', token, data}) => {
+  return fetch(`${baseUrl}${url}`, {
+    method,
     headers: {
       "Content-Type": "application/json",
+      ...!!token && { "Authorization": `Bearer ${token}` }
     },
-    body: JSON.stringify({
-      password: password,
-      email: email
-    })
+    ...!!data && { body: JSON.stringify(data) }
   })
     .then(res => {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+      return Promise.reject(res.status)
+    });
+};
+
+export const register = (password, email) => {
+  return request({
+    url: '/signup',
+    data: {
+      password: password,
+      email: email
+    }
+  })
 };
 
 export const authorization = (password, email) => {
-  return fetch(`${baseUrl}/signin`, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+  return request({
+    url: '/signin',
+    data: {
       password: password,
       email: email
-    })
+    }
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
 };
 
 export const getContent = (token) => {
-  return fetch(`${baseUrl}/users/me`, {
+  return request({
+    url: '/users/me',
     method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
+    token
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
 };
+

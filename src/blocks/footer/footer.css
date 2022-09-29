@@ -14,6 +14,7 @@
 @media screen and (max-width: 767px) {
 
   .footer {
+    justify-content: center;
     max-width: 282px;
     margin-bottom: 36px;
   }
