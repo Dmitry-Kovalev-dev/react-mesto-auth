@@ -10,7 +10,7 @@ const InfoTooltip = (props) => {
     <div onClick={onClose} className={className}>
       <div className={`popup__container popup__container_type_info`}>
         <button className="popup__close-btn" type="button"></button>
-        <img src={isRegister ? done : err} alt="" className="popup__icon-info" />
+        <img src={isRegister ? done : err} alt={isRegister ? 'иконка успешной регистрации' : 'иконка ошибки'} className="popup__icon-info" />
         <h2 className={`popup__title popup__title_type_info`}>{message}</h2>
 
       </div>

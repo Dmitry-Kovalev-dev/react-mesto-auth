@@ -29,7 +29,6 @@ const Login = (props) => {
           className="popup__form popup__form_type_auth"
           name="auth"
           onSubmit={handleSubmit}
-          noValidate
         >
           <fieldset className="popup__form-inputs">
             <label className="popup__formfield">

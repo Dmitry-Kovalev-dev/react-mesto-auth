@@ -38,7 +38,7 @@ export const authorization = (password, email) => {
   })
 };
 
-export const getContent = (token) => {
+export const checkToken = (token) => {
   return request({
     url: '/users/me',
     method: 'GET',

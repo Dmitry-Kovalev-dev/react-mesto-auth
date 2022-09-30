@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { authorization, register, getContent } from '../utils/mestoAuth';
+import { authorization, register, checkToken } from '../utils/mestoAuth';
 import api from './../utils/Api';
 import Footer from './Footer';
 import Header from './Header';
@@ -165,21 +165,23 @@ const App = () => {
       .then(() => {
         setTimeout(() => { //костыль: установил таймаут, потому что при втором запросе сервер выдает ошибку 429
           handleLogin(password, email);
-          setInfoTooltipPopupOpen(true);
           setIsRegister(true);
           setMessage('Вы успешно зарегистрировались!');
         }, 500);
       })
       .catch(err => {
-        setInfoTooltipPopupOpen(true);
+        
         setIsRegister(false);
         setMessage(errorMessages[err]);
-      });
+      })
+      .finally(() => {
+        setInfoTooltipPopupOpen(true);
+      })
   };
 
   const tokenCheck = () => {
     if (token) {
-      getContent(token)
+      checkToken(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
@@ -205,7 +207,6 @@ const App = () => {
   };
 
   return (
-    <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header
           loggedIn={loggedIn}
@@ -279,7 +280,6 @@ const App = () => {
           message={message}
         />
       </CurrentUserContext.Provider>
-    </>
   );
 }
 

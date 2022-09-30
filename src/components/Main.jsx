@@ -32,13 +32,15 @@ const Main = (props) => {
 
       <section className='photo-feed'>
         {cards.map((card) => {
-          return <Card
-            key={card._id}
-            card={card}
-            handleCardClick={onCardClick}
-            onCardLike={onCardLike}
-            onCardTrash={onCardTrash}
-          />
+          return (
+            <Card
+              key={card._id}
+              card={card}
+              handleCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardTrash={onCardTrash}
+            />
+          );
         })}
       </section>
 
